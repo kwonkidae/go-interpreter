@@ -2,7 +2,6 @@ package ast
 
 import (
 	"bytes"
-	"fmt"
 	"monkey/token"
 )
 
@@ -43,7 +42,6 @@ func (p *Program) String() string {
 	var out bytes.Buffer
 
 	for _, s := range p.Statements {
-		fmt.Println(s)
 		out.WriteString(s.String())
 	}
 	return out.String()
