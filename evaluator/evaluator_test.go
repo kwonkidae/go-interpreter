@@ -259,7 +259,6 @@ func TestLetStatements(t *testing.T) {
 
 func TestFunctionObject(t *testing.T) {
 	input := "fn(x) { x + 2; };"
-
 	evaluated := testEval(input)
 	fn, ok := evaluated.(*object.Function)
 	if !ok {

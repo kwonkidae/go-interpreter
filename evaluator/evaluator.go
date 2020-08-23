@@ -57,6 +57,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		if isError(val) {
 			return val
 		}
+		fmt.Printf("node.Name.Value: %v, val: %v\n", node.Name.Value, val)
 		env.Set(node.Name.Value, val)
 	case *ast.Identifier:
 		return evalIdentifier(node, env)

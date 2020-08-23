@@ -134,7 +134,7 @@ func (p *Parser) parseLetStatement() *ast.LetStatement {
 	if !p.expectPeek(token.IDENT) {
 		return nil
 	}
-
+	// fmt.Println(p.curToken, p.curToken.Literal)
 	stmt.Name = &ast.Identifier{Token: p.curToken, Value: p.curToken.Literal}
 
 	if !p.expectPeek(token.ASSIGN) {
@@ -179,13 +179,14 @@ func (p *Parser) parseExpressionStatement() *ast.ExpressionStatement {
 
 func (p *Parser) parseExpression(precedence int) ast.Expression {
 	// defer untrace(trace("parseExpression"))
+	fmt.Printf("p.curToken.Type: %s, value %s\n", p.curToken.Type, p.curToken.Literal)
 	prefix := p.prefixParseFns[p.curToken.Type]
 	if prefix == nil {
 		p.noPrefixParseFnError(p.curToken.Type)
 		return nil
 	}
 	leftExp := prefix()
-
+	fmt.Printf("leftExp %+v\n", leftExp)
 	for !p.peekTokenIs(token.SEMICOLON) && precedence < p.peekPrecedence() {
 
 		infix := p.infixParseFns[p.peekToken.Type]
@@ -197,6 +198,7 @@ func (p *Parser) parseExpression(precedence int) ast.Expression {
 		p.nextToken()
 
 		leftExp = infix(leftExp)
+		fmt.Printf("infix %+v\n", leftExp)
 	}
 
 	return leftExp
